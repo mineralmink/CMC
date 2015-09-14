@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Register"
+        android:id="@+id/register_title"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="91dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Full Name"
+        android:ems="10"
+        android:id="@+id/regis_fullname_edit"
+        android:layout_below="@+id/register_title"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:hint="Email Adress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/regis_email_edit"
+        android:layout_below="@+id/regis_fullname_edit"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:hint="Password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/regis_pass_edit"
+        android:layout_below="@+id/regis_email_edit"
+        android:layout_alignLeft="@+id/regis_email_edit"
+        android:layout_alignStart="@+id/regis_email_edit" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sumit"
+        android:id="@+id/regis_submit_button"
+        android:layout_below="@+id/regis_pass_edit"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="43dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:id="@+id/regis_cancel_button"
+        android:layout_below="@+id/regis_submit_button"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

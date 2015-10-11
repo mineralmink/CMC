@@ -1,50 +1,38 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="donuseiei.test.com.authen.Plan_page">
-
-    <TabHost
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/tabHost"
-        android:layout_gravity="center_horizontal|top">
-
-        <LinearLayout
+    android:orientation="vertical" >
+        <TabHost
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:id="@+id/tabHost_plan"
+            android:layout_gravity="center_horizontal|top">
 
-            <TabWidget
-                android:id="@android:id/tabs"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            </TabWidget>
-
-            <FrameLayout
-                android:id="@android:id/tabcontent"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:id="@+id/planLatout"
+                <TabWidget
+                    android:id="@android:id/tabs"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"></TabWidget>
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/changePlanLayout"
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="match_parent">
 
-                </LinearLayout>
+                    <FrameLayout
+                        android:id="@+id/current_plan"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent" />
+                    <FrameLayout
+                        android:id="@+id/change_plan"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent" />
 
-            </FrameLayout>
-        </LinearLayout>
-    </TabHost>
-
-</FrameLayout>
+                </FrameLayout>
+            </LinearLayout>
+        </TabHost>
+</LinearLayout>

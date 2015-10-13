@@ -5,7 +5,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
-public class MainManager extends AppCompatActivity implements  Login_page.OnFragmentInteractionListener{
+public class MainManager extends AppCompatActivity implements  Login_page.OnFragmentInteractionListener,
+                                                                Registe_page.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

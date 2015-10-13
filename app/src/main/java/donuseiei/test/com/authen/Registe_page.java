@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -104,18 +105,19 @@ public class Registe_page extends Fragment {
         // Instantiate Http Request Param Object
         RequestParams params = new RequestParams();
 
-        params.put("name",name);
         // Put Http parameter username with value of Email Edit View control
-        params.put("username", email);
+        params.put("e", email);
         // Put Http parameter password with value of Password Edit Value control
-        params.put("password", password);
+        params.put("p", password);
+
+        params.put("i","");
         // Invoke RESTful Web Service with Http parameters
         post(params);
     }
     public void post(RequestParams params){
-        prgDialog.show();
+        //prgDialog.show();
         AsyncHttpClient client = new AsyncHttpClient();
-        client.post("http://192.168.1.37/add", params, new AsyncHttpResponseHandler() {
+        client.post("http://203.151.92.185:8080/addUser/"+email+"/"+name+"/", params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String response = "";
@@ -123,6 +125,9 @@ public class Registe_page extends Fragment {
                     response += (char) responseBody[index];
                 }
                 Log.i("res",response);
+                    Toast.makeText(getActivity(),response,Toast.LENGTH_LONG).show();
+                    getFragmentManager().beginTransaction().replace(R.id.container, new Login_page()).commit();
+
                /* try {
                     // JSON Object
                     JSONObject obj = new JSONObject(response);
@@ -138,7 +143,9 @@ public class Registe_page extends Fragment {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
+                Log.i("number", "" + statusCode);
+                if(statusCode == 404)
+                    Toast.makeText(getActivity(), "Page Not Found", Toast.LENGTH_LONG).show();
             }
         });
     }

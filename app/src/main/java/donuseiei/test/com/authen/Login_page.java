@@ -2,6 +2,7 @@ package donuseiei.test.com.authen;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -93,23 +94,25 @@ public class Login_page extends Fragment {
         password = edit_pass.getText().toString();
         // Instantiate Http Request Param Object
         RequestParams params = new RequestParams();
-        // Put Http parameter username with value of Email Edit View control
-        params.put("username", email);
-        // Put Http parameter password with value of Password Edit Value control
-        params.put("password", password);
+        params.put("p", password);
         // Invoke RESTful Web Service with Http parameters
         get(params);
+        Log.i("para", params.toString());
     }
 
     public void get(RequestParams params) {
         // Show Progress Dialog
-        prgDialog.show();
+        /*prgDialog.setMessage("checking");
+        prgDialog.setCancelable(true);
+        prgDialog.show();*/
         // Make RESTful webservice call using AsyncHttpClient object
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get("http://192.168.1.37:8080", params, new AsyncHttpResponseHandler() {
+        client.get("http://203.151.92.185:8080/login/"+email+"/", params, new AsyncHttpResponseHandler() {
             @Override
-            public void onFailure(int i, Header[] headers, byte[] bytes, Throwable throwable) {
-
+            public void onFailure(int statusCode, Header[] headers, byte[] bytes, Throwable throwable) {
+                Log.i("number", "" + statusCode);
+                if(statusCode == 404)
+                    Toast.makeText(getActivity(),"Page Not Found",Toast.LENGTH_LONG).show();
             }
             @Override
             public void onSuccess(int i, Header[] headers, byte[] bytes) {
@@ -118,7 +121,13 @@ public class Login_page extends Fragment {
                     response += (char) bytes[index];
                 }
                 Log.i("res", response);
-                try {
+                if(response.equals("true")) {
+                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    startActivity(intent);
+                }
+                else
+                    Toast.makeText(getActivity(),"Email or Password may wrong",Toast.LENGTH_LONG).show();
+               /* try {
                     JSONObject json = new JSONObject(response);
                     if(json.getBoolean("status")) {
                         //
@@ -129,7 +138,7 @@ public class Login_page extends Fragment {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                }
+                }*/
             }
         });
         // PersistentCookieStore myCookieStore = new PersistentCookieStore(this);
@@ -166,3 +175,4 @@ public class Login_page extends Fragment {
     }
 
 }
+

@@ -9,18 +9,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import donuseiei.test.com.authen.ChangePlane_page;
 import donuseiei.test.com.authen.Login_page;
 import donuseiei.test.com.authen.R;
 import donuseiei.test.com.authen.Registe_page;
+import donuseiei.test.com.authen.page.View_plan;
 
 public class Plan_page extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM1 = "id";
+    private static final String ARG_PARAM2 = "password";
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private String id;
+    private String password;
     private OnFragmentInteractionListener mListener;
     private FragmentTabHost mTabHost;
     /**
@@ -49,20 +51,23 @@ public class Plan_page extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            id = getArguments().getString(ARG_PARAM1);
+            password = getArguments().getString(ARG_PARAM2);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Bundle bundle = new Bundle();
+        bundle.putString("id",id);
+        bundle.putString("password",password);
         mTabHost = new FragmentTabHost(getActivity());
         mTabHost.setup(getActivity(), getChildFragmentManager(), R.id.tabHost_plan);
         mTabHost.addTab(mTabHost.newTabSpec("currentPlan").setIndicator("Current Plan"),
-                Login_page.class, null);
+                View_plan.class, bundle);
         mTabHost.addTab(mTabHost.newTabSpec("changePlan").setIndicator("Change Plan"),
-                Registe_page.class, null);
+                ChangePlane_page.class, bundle);
         return mTabHost;
     }
 
@@ -104,5 +109,4 @@ public class Plan_page extends Fragment {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
     }
-
 }

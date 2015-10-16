@@ -4,24 +4,21 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import donuseiei.test.com.authen.Login_page;
 import donuseiei.test.com.authen.R;
-import donuseiei.test.com.authen.Registe_page;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Dash_page.OnFragmentInteractionListener} interface
+ * {@link EachDash_page.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Dash_page#newInstance} factory method to
+ * Use the {@link EachDash_page#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Dash_page extends Fragment {
+public class EachDash_page extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,7 +27,7 @@ public class Dash_page extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private FragmentTabHost mTabHost;
+
     private OnFragmentInteractionListener mListener;
 
     /**
@@ -39,11 +36,11 @@ public class Dash_page extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Dash_page.
+     * @return A new instance of fragment EachDash_page.
      */
     // TODO: Rename and change types and number of parameters
-    public static Dash_page newInstance(String param1, String param2) {
-        Dash_page fragment = new Dash_page();
+    public static EachDash_page newInstance(String param1, String param2) {
+        EachDash_page fragment = new EachDash_page();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -51,7 +48,7 @@ public class Dash_page extends Fragment {
         return fragment;
     }
 
-    public Dash_page() {
+    public EachDash_page() {
         // Required empty public constructor
     }
 
@@ -67,13 +64,8 @@ public class Dash_page extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mTabHost = new FragmentTabHost(getActivity());
-        mTabHost.setup(getActivity(), getChildFragmentManager(), R.id.tabHost_dash);
-        mTabHost.addTab(mTabHost.newTabSpec("all").setIndicator("All"),
-                AllDash_page.class, null);
-        mTabHost.addTab(mTabHost.newTabSpec("each").setIndicator("Each"),
-                EachDash_page.class, null);
-        return mTabHost;
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_each_dash_page, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -94,10 +94,9 @@ public class Login_page extends Fragment {
         password = edit_pass.getText().toString();
         // Instantiate Http Request Param Object
         RequestParams params = new RequestParams();
-        params.put("p", password);
+        params.put("password", password);
         // Invoke RESTful Web Service with Http parameters
         get(params);
-        Log.i("para", params.toString());
     }
 
     public void get(RequestParams params) {
@@ -107,7 +106,7 @@ public class Login_page extends Fragment {
         prgDialog.show();*/
         // Make RESTful webservice call using AsyncHttpClient object
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get("http://203.151.92.185:8080/login/"+email+"/", params, new AsyncHttpResponseHandler() {
+        client.get("http://161.246.5.203:3000/login/"+email+"/", params, new AsyncHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] bytes, Throwable throwable) {
                 Log.i("number", "" + statusCode);
@@ -121,8 +120,10 @@ public class Login_page extends Fragment {
                     response += (char) bytes[index];
                 }
                 Log.i("res", response);
-                if(response.equals("true")) {
+                if(!response.isEmpty()) {
                     Intent intent = new Intent(getActivity(), MainActivity.class);
+                    intent.putExtra("id",response);
+                    intent.putExtra("password", password);
                     startActivity(intent);
                 }
                 else

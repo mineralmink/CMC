@@ -2,6 +2,7 @@
 
     <color name="black_overlay">#66000000</color>
     <color name="white_background">#e5e5e5</color>
-    <color name="blue_button">#005ca9</color>
+    <color name="blue_button">#2196F3</color>
     <color name="text_white">#FFFFFF</color>
+    <color name="change_plan_top">#80daeb</color>
 </resources>

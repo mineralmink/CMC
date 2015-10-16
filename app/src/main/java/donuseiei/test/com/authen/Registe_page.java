@@ -117,7 +117,7 @@ public class Registe_page extends Fragment {
     public void post(RequestParams params){
         //prgDialog.show();
         AsyncHttpClient client = new AsyncHttpClient();
-        client.post("http://203.151.92.185:8080/addUser/"+email+"/"+name+"/", params, new AsyncHttpResponseHandler() {
+        client.post("http://203.151.92.185:3000/addUser/"+email+"/"+name+"/", params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String response = "";

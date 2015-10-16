@@ -1,0 +1,204 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="donuseiei.test.com.authen.View_plan"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <Spinner
+            android:id="@+id/spinner_vp"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:background="@android:drawable/btn_dropdown"
+            android:spinnerMode="dropdown"
+            android:layout_marginLeft="125dp"
+            android:layout_marginTop="30dp" />
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:text="Select"
+            android:id="@+id/tSel"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="40dp"
+            android:textSize="18dp" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tSel"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="50dp">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:text="CPU"
+                    android:id="@+id/tCPU"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginTop="40dp"
+                    android:textSize="18dp"
+                    android:layout_column="3" />
+
+                <TextView
+                    android:layout_width="5dp"
+                    android:layout_height="20dp"
+                    android:text=":"
+                    android:id="@+id/textView12"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="40dp"
+                    android:textSize="18dp"
+                    android:layout_column="4" />
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:text="CPU..."
+                    android:id="@+id/sCPU"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="40dp"
+                    android:textSize="18dp"
+                    android:layout_column="5" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:text="Memory"
+                    android:id="@+id/tMem"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginTop="40dp"
+                    android:textSize="18dp"
+                    android:layout_column="3" />
+
+                <TextView
+                    android:layout_width="5dp"
+                    android:layout_height="20dp"
+                    android:text=":"
+                    android:id="@+id/textView11"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="40dp"
+                    android:textSize="18dp"
+                    android:layout_column="4" />
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:text="Memory..."
+                    android:id="@+id/sMem"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="40dp"
+                    android:textSize="18dp"
+                    android:layout_column="5" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:text="Storage"
+                    android:id="@+id/tStr"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginTop="40dp"
+                    android:textSize="18dp"
+                    android:layout_column="3"
+                    android:allowUndo="true" />
+
+                <TextView
+                    android:layout_width="5dp"
+                    android:layout_height="20dp"
+                    android:text=":"
+                    android:id="@+id/textView10"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="40dp"
+                    android:textSize="18dp"
+                    android:layout_column="4" />
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:text="Storage..."
+                    android:id="@+id/sStr"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="40dp"
+                    android:textSize="18dp"
+                    android:layout_column="5" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:text="Network"
+                    android:id="@+id/tNet"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginTop="40dp"
+                    android:textSize="18dp"
+                    android:layout_column="3" />
+
+                <TextView
+                    android:layout_width="5dp"
+                    android:layout_height="20dp"
+                    android:text=":"
+                    android:id="@+id/textView9"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="40dp"
+                    android:textSize="18dp"
+                    android:layout_column="4" />
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:text="Network..."
+                    android:id="@+id/sNet"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="40dp"
+                    android:textSize="18dp"
+                    android:layout_column="5" />
+            </TableRow>
+        </TableLayout>
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:text="Cloud -> "
+            android:id="@+id/tCld"
+            android:textSize="18dp"
+            android:layout_below="@+id/tSel"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="20dp" />
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:text="Cloud..."
+            android:id="@+id/sCld"
+            android:textSize="18dp"
+            android:layout_alignTop="@+id/tCld"
+            android:layout_toRightOf="@+id/tCld"
+            android:layout_toEndOf="@+id/tCld" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>

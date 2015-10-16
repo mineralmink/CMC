@@ -282,6 +282,7 @@ public class ChangePlane_page extends Fragment {
                         makeList();
                         RequestParams params = new RequestParams();
                         params.put("cloudProv",vm.get(0).getProv());
+                        getPlan(params);
                     }
                     else{
                         Toast.makeText(getActivity(),"No Any Fucking Plan , Go to ur school",Toast.LENGTH_LONG);

@@ -145,7 +145,7 @@ public class ChangePlane_page extends Fragment {
                     itemsVM.removeAll(itemsVM);
                 }
                 else {
-                    itemsVM.add(new ListItemChangePlan("Cloud Provider", plan.getProv(),vm.getProv()));
+                    //itemsVM.add(new ListItemChangePlan("Cloud Provider", plan.getProv(),vm.getProv()));
                     itemsVM.add(new ListItemChangePlan("IP Address", plan.getIp(), vm.getIp()));
                     itemsVM.add(new ListItemChangePlan("CPU", plan.getCpu(), vm.getCpu()));
                     itemsVM.add(new ListItemChangePlan("Memory", plan.getMemory(),vm.getMemory()));

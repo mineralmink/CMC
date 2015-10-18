@@ -50,7 +50,7 @@
         android:background="@color/blue_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sumit"
+        android:text="Submit"
         android:id="@+id/regis_submit_button"
         android:layout_marginBottom="14dp"
         android:layout_above="@+id/regis_cancel_button"

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,21 +27,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
+import donuseiei.test.com.authen.Adapter.PlanViewAdapter;
 import donuseiei.test.com.authen.Cloud;
+import donuseiei.test.com.authen.HTTPConnector;
+import donuseiei.test.com.authen.ListItemPlan;
 import donuseiei.test.com.authen.Plan;
 import donuseiei.test.com.authen.R;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link View_plan.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link View_plan#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class View_plan extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -50,22 +46,13 @@ public class View_plan extends Fragment {
     // TODO: Rename and change types of parameters
     private String id;
     private String password;
-    private ArrayList<Plan> listCloud;
-    private TextView cpu;
-    private TextView mem;
-    private TextView sto;
-    private TextView net;
+    private View view_plan;
+    private List<Plan> listVM;
+    private RequestParams params;
     private Spinner dropdown;
+    private List<String> ips;
     private OnFragmentInteractionListener mListener;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment View_plan.
-     */
     // TODO: Rename and change types and number of parameters
     public static View_plan newInstance(String param1, String param2) {
         View_plan fragment = new View_plan();
@@ -83,69 +70,41 @@ public class View_plan extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        listCloud = new ArrayList<>();
+        listVM = new ArrayList<>();
+        ips = new ArrayList<>();
         if (getArguments() != null) {
             id = getArguments().getString(ARG_PARAM1);
             password = getArguments().getString(ARG_PARAM2);
         }
+        params = new RequestParams();
+        params.put("password", password);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         // Inflate the layout for this fragment
-        final View view_plan =  inflater.inflate(R.layout.fragment_view_plan, container, false);
-        //dropdown
-        dropdown = (Spinner) view_plan.findViewById(R.id.spinner_vp);
-        // detail user
-        cpu = (TextView)view_plan.findViewById(R.id.sCPU);
-        mem  = (TextView)view_plan.findViewById(R.id.sMem);
-        sto  = (TextView)view_plan.findViewById(R.id.sStr);
-        net = (TextView)view_plan.findViewById(R.id.sNet);
-        RequestParams p = new RequestParams();
-        p.put("password", password);
-        getVM(p);
-        /*dropdown.*/
-        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Plan c = listCloud.get(position);
-                cpu.setText(c.getCpu());
-                mem.setText(c.getMemory());
-                sto.setText(c.getStorage());
-                net.setText(c.getNetwork());
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        view_plan =  inflater.inflate(R.layout.fragment_view_plan, container, false);
+        getVM(params, "plan/" + id + "/");
         return view_plan;
     }
 
     /*send http to get plan that available*/
-    public void getVM(RequestParams params) {
-        ProgressDialog dialog = ProgressDialog.show(getActivity(), "Loading", "Please wait...", true);
-        // Make RESTful webservice call using AsyncHttpClient object
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get("http://161.246.5.203:3000/plan/"+id+"/", params, new AsyncHttpResponseHandler() {
+    public void getVM(RequestParams params,String url) {
+        HTTPConnector.get(url, params, new AsyncHttpResponseHandler() {
             @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] bytes, Throwable throwable) {
-                if (statusCode == 404)
-                    Toast.makeText(getActivity(), "Page Not Found", Toast.LENGTH_LONG).show();
-            }
-            @Override
-            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String response = "";
-                for (int index = 0; index < bytes.length; index++) {
-                    response += (char) bytes[index];
+                for (int index = 0; index < responseBody.length; index++) {
+                    response += (char) responseBody[index];
                 }
-
                 try {
+                    if(!listVM.isEmpty()) {
+                        listVM.removeAll(listVM);
+                    }
                     JSONArray jsonarr = new JSONArray(response);
-                    if(jsonarr.length()!=0) {
-                        for(int index = 0; index < jsonarr.length();index++){
+                    if (jsonarr.length() != 0) {
+                        for (int index = 0; index < jsonarr.length(); index++) {
                             JSONObject json = new JSONObject(jsonarr.get(index).toString());
                             Plan c = new Plan(
                                     json.getString("cloudProv"),
@@ -155,25 +114,59 @@ public class View_plan extends Fragment {
                                     json.getString("mem"),
                                     json.getString("network"),
                                     json.getString("storage"));
-                            listCloud.add(c);
+                            listVM.add(c);
                         }
-                        final ArrayList<String> items = new ArrayList<String>();
-                        for(int j = 0 ; j < listCloud.size() ; j++){
-                            items.add(listCloud.get(j).getIp());
-                        }
-                        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
-                        dropdown.setAdapter(adapter);
                     }
-                    else{
-                        Toast.makeText(getActivity(),"No Any Fucking Plan , Go to ur school",Toast.LENGTH_LONG);
-                    }
-
+                    CreateView();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Toast.makeText(getActivity(), "Error Code " + statusCode, Toast.LENGTH_LONG).show();
+            }
         });
-        dialog.dismiss();
+    }
+
+    public void CreateView(){
+        dropdown = (Spinner) view_plan.findViewById(R.id.spinner_vp);
+        if(!ips.isEmpty()){
+            ips.removeAll(ips);
+        }
+        for (Plan vm : listVM) {
+            ips.add(vm.getIp());
+        }
+        ArrayAdapter<String> adapter_spinner = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, ips);
+        dropdown.setAdapter(adapter_spinner);
+        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ListView lv = (ListView)view_plan.findViewById(R.id.listPlanView);
+                List<ListItemPlan> itemsVM = new ArrayList<>();;
+                Plan p = listVM.get(position);
+                if(!itemsVM.isEmpty()){
+                    itemsVM.removeAll(itemsVM);
+                }
+                else {
+                    itemsVM.add(new ListItemPlan("Cloud Provider", p.getProv()));
+                    itemsVM.add(new ListItemPlan("IP Address", p.getIp()));
+                    itemsVM.add(new ListItemPlan("CPU", p.getCpu()));
+                    itemsVM.add(new ListItemPlan("Memory", p.getMemory()));
+                    itemsVM.add(new ListItemPlan("Network", p.getMemory()));
+                    itemsVM.add(new ListItemPlan("Storage", p.getStorage()));
+                    itemsVM.add(new ListItemPlan("Mountly Rate", p.getMounthlyrate()));
+                }
+                PlanViewAdapter adapter = new PlanViewAdapter(getContext(),android.R.layout.simple_expandable_list_item_2,itemsVM);
+                lv.setAdapter(adapter);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -184,32 +177,11 @@ public class View_plan extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);

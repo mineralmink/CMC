@@ -1,6 +1,5 @@
 package donuseiei.test.com.authen.page;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,12 +7,9 @@ import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TabHost;
 
-import donuseiei.test.com.authen.ChangePlane_page;
-import donuseiei.test.com.authen.Login_page;
 import donuseiei.test.com.authen.R;
-import donuseiei.test.com.authen.Registe_page;
-import donuseiei.test.com.authen.page.View_plan;
 
 public class Plan_page extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -25,14 +21,7 @@ public class Plan_page extends Fragment {
     private String password;
     private OnFragmentInteractionListener mListener;
     private FragmentTabHost mTabHost;
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Plan_page.
-     */
+
     // TODO: Rename and change types and number of parameters
     public static Plan_page newInstance(String param1, String param2) {
         Plan_page fragment = new Plan_page();
@@ -78,16 +67,6 @@ public class Plan_page extends Fragment {
         }
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
 
     @Override
     public void onDetach() {
@@ -95,16 +74,6 @@ public class Plan_page extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);

@@ -1,11 +1,32 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="donuseiei.test.com.authen.View_plan"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <LinearLayout
+    <Spinner
+        android:id="@+id/spinner_vp_change"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp" />
+    <Spinner
+        android:id="@+id/spinner_vp_planAvailable"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp" />
+    <ListView
+        android:id="@+id/listChange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
+
+<!-- <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -227,6 +248,4 @@
                     android:text="Change"/>
             </LinearLayout>
             </ScrollView>
-    </LinearLayout>
-</LinearLayout>
-
+    </LinearLayout>-->

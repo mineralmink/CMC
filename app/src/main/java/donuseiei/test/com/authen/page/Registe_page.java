@@ -1,7 +1,10 @@
-package donuseiei.test.com.authen;
+package donuseiei.test.com.authen.page;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,6 +21,9 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.apache.http.Header;
+
+import donuseiei.test.com.authen.HTTPConnector;
+import donuseiei.test.com.authen.R;
 
 
 /**
@@ -106,48 +112,41 @@ public class Registe_page extends Fragment {
         RequestParams params = new RequestParams();
 
         // Put Http parameter username with value of Email Edit View control
-        params.put("e", email);
+        params.put("email", email);
         // Put Http parameter password with value of Password Edit Value control
-        params.put("p", password);
+        params.put("password", password);
 
-        params.put("i","");
+        params.put("imgLocation", "");
         // Invoke RESTful Web Service with Http parameters
-        post(params);
+        if(isOnline())
+            post(params);
+        else
+            Toast.makeText(getActivity(), "Please Connect the internet", Toast.LENGTH_LONG).show();
     }
-    public void post(RequestParams params){
-        //prgDialog.show();
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.post("http://203.151.92.185:3000/addUser/"+email+"/"+name+"/", params, new AsyncHttpResponseHandler() {
+    public void post(RequestParams params) {
+        HTTPConnector.post("addUser/" + email + "/" + name + "/", params, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String response = "";
                 for (int index = 0; index < responseBody.length; index++) {
                     response += (char) responseBody[index];
                 }
-                Log.i("res",response);
-                    Toast.makeText(getActivity(),response,Toast.LENGTH_LONG).show();
-                    getFragmentManager().beginTransaction().replace(R.id.container, new Login_page()).commit();
-
-               /* try {
-                    // JSON Object
-                    JSONObject obj = new JSONObject(response);
-                    //if (obj.getBoolean("1")) {
-                    //    getFragmentManager().beginTransaction().replace(R.id.container,new Login_page()).commit();
-                   // }
-
-                } catch (JSONException e) {
-                    //TODO Auto-generated catch block
-                    e.printStackTrace();
-                }*/
+                Toast.makeText(getActivity(),response,Toast.LENGTH_LONG).show();
+                getFragmentManager().beginTransaction().replace(R.id.container, new Login_page()).commit();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Log.i("number", "" + statusCode);
-                if(statusCode == 404)
-                    Toast.makeText(getActivity(), "Page Not Found", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "Error Code " + statusCode, Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

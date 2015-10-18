@@ -1,8 +1,6 @@
 package donuseiei.test.com.authen;
 
-import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,15 +13,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioButton;
 
-import java.util.Objects;
-
 import donuseiei.test.com.authen.page.AllDash_page;
 import donuseiei.test.com.authen.page.Bill_page;
+import donuseiei.test.com.authen.page.ChangePlane_page;
 import donuseiei.test.com.authen.page.Dash_page;
 import donuseiei.test.com.authen.page.EachDash_page;
+import donuseiei.test.com.authen.page.Login_page;
 import donuseiei.test.com.authen.page.Mail_page;
 import donuseiei.test.com.authen.page.Plan_page;
 import donuseiei.test.com.authen.page.Profile_page;
+import donuseiei.test.com.authen.page.Registe_page;
 import donuseiei.test.com.authen.page.Report_page;
 
 public class MainActivity extends AppCompatActivity
@@ -58,6 +57,7 @@ public class MainActivity extends AppCompatActivity
         Bundle bundle = getIntent().getExtras();
         id = bundle.getString("id");
         password = bundle.getString("password");
+        Log.i("id", id);
         Log.i("main",password);
         //construct tab button
         dash = (RadioButton)findViewById(R.id.btnDash);

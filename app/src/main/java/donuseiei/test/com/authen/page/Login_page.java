@@ -1,8 +1,11 @@
-package donuseiei.test.com.authen;
+package donuseiei.test.com.authen.page;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,8 +22,10 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.apache.http.Header;
-import org.json.JSONException;
-import org.json.JSONObject;
+
+import donuseiei.test.com.authen.HTTPConnector;
+import donuseiei.test.com.authen.MainActivity;
+import donuseiei.test.com.authen.R;
 
 
 public class Login_page extends Fragment {
@@ -31,7 +36,7 @@ public class Login_page extends Fragment {
     private  Button register;
     private  EditText edit_email;
     private  EditText edit_pass;
-    private String email;
+    private String username;
     // Get Password Edit View Value
     private String password;
     // TODO: Rename and change types of parameters
@@ -61,6 +66,7 @@ public class Login_page extends Fragment {
             //mParam1 = getArguments().getString(name_var1);
             //mParam2 = getArguments().getString(name_var2);
         }
+        prgDialog = new ProgressDialog(getActivity());
     }
 
     @Override
@@ -68,7 +74,6 @@ public class Login_page extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_login_page, container, false);
-        prgDialog = new ProgressDialog(getContext());
         submit = (Button)v.findViewById(R.id.submit_login);
         register = (Button)v.findViewById(R.id.btn_register);
         edit_email = (EditText)v.findViewById(R.id.username_login);
@@ -89,61 +94,50 @@ public class Login_page extends Fragment {
     }
     public void login(View view){
         // Get Email Edit View Value
-        email = edit_email.getText().toString();
+        username = edit_email.getText().toString();
         // Get Password Edit View Value
         password = edit_pass.getText().toString();
         // Instantiate Http Request Param Object
         RequestParams params = new RequestParams();
         params.put("password", password);
         // Invoke RESTful Web Service with Http parameters
-        get(params);
+        if(isOnline())
+            get(params);
+        else
+            Toast.makeText(getActivity(), "Please Connect the internet", Toast.LENGTH_LONG).show();
     }
 
     public void get(RequestParams params) {
-        // Show Progress Dialog
-        /*prgDialog.setMessage("checking");
-        prgDialog.setCancelable(true);
-        prgDialog.show();*/
-        // Make RESTful webservice call using AsyncHttpClient object
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get("http://161.246.5.203:3000/login/"+email+"/", params, new AsyncHttpResponseHandler() {
+        HTTPConnector.get("login/" + username + "/", params, new AsyncHttpResponseHandler() {
             @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] bytes, Throwable throwable) {
-                Log.i("number", "" + statusCode);
-                if(statusCode == 404)
-                    Toast.makeText(getActivity(),"Page Not Found",Toast.LENGTH_LONG).show();
-            }
-            @Override
-            public void onSuccess(int i, Header[] headers, byte[] bytes) {
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String response = "";
-                for (int index = 0; index < bytes.length; index++) {
-                    response += (char) bytes[index];
+                for (int index = 0; index < responseBody.length; index++) {
+                    response += (char) responseBody[index];
                 }
                 Log.i("res", response);
-                if(!response.isEmpty()) {
+                if (!response.isEmpty()) {
                     Intent intent = new Intent(getActivity(), MainActivity.class);
-                    intent.putExtra("id",response);
+                    intent.putExtra("id", response);
                     intent.putExtra("password", password);
                     startActivity(intent);
+                } else {
+                    Toast.makeText(getActivity(), "Email or Password may wrong", Toast.LENGTH_LONG).show();
                 }
-                else
-                    Toast.makeText(getActivity(),"Email or Password may wrong",Toast.LENGTH_LONG).show();
-               /* try {
-                    JSONObject json = new JSONObject(response);
-                    if(json.getBoolean("status")) {
-                        //
-                    }
-                    else{
-                        Toast.makeText(getContext(),"Error",Toast.LENGTH_LONG);
-                    }
+            }
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }*/
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Toast.makeText(getActivity(), "Error Code " + statusCode, Toast.LENGTH_LONG).show();
             }
         });
-        // PersistentCookieStore myCookieStore = new PersistentCookieStore(this);
-        // client.setCookieStore(myCookieStore);
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -174,6 +168,5 @@ public class Login_page extends Fragment {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
     }
-
 }
 

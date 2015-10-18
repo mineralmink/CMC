@@ -16,14 +16,14 @@ public class Plan {
 
     }
 
-    public Plan(String prov,String ip,String mon,String cpu,String mem,String str,String nwk){
-        setProv(prov);
+    public Plan(String prov,String ip,String mounthlyrate,String cpu,String mem,String str,String nwk){
+        this.prov = prov;
         this.ip = ip;
-        mounthlyrate = mon;
-        setCpu(cpu);
-        setMemory(mem);
-        setStorage(str);
-        setNetwork(nwk);
+        this.mounthlyrate = mounthlyrate;
+        this.cpu = cpu;
+        this.mem = mem;
+        this.str = str;
+        this.nwk = nwk;
     }
 
     public String getProv() {

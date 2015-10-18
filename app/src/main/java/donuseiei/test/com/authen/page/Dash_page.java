@@ -9,9 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import donuseiei.test.com.authen.Login_page;
 import donuseiei.test.com.authen.R;
-import donuseiei.test.com.authen.Registe_page;
 
 /**
  * A simple {@link Fragment} subclass.

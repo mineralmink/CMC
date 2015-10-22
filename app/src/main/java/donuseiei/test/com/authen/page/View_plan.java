@@ -31,7 +31,6 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import donuseiei.test.com.authen.Adapter.PlanViewAdapter;
-import donuseiei.test.com.authen.Cloud;
 import donuseiei.test.com.authen.HTTPConnector;
 import donuseiei.test.com.authen.ListItemPlan;
 import donuseiei.test.com.authen.Plan;

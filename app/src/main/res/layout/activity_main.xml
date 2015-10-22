@@ -31,7 +31,7 @@
                 <RadioButton
                     android:id="@+id/btnPlan"
                     style="@style/navbar_button"
-                    android:drawableTop="@mipmap/ic_local_grocery_store_black_36dp_w"
+                    android:drawableTop="@mipmap/plan"
                     android:text="Plan"
                     android:layout_marginLeft="0dp"
                     android:layout_height="match_parent" />

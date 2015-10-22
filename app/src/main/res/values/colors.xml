@@ -5,4 +5,8 @@
     <color name="blue_button">#2196F3</color>
     <color name="text_white">#FFFFFF</color>
     <color name="change_plan_top">#80daeb</color>
+    <color name="background_cpudash">#c1ebff</color>
+    <color name="background_memdash">#c1ccff </color>
+    <color name="background_storagedash">#ccffc1</color>
+    <color name="background_netdash">#ffc1cc</color>
 </resources>

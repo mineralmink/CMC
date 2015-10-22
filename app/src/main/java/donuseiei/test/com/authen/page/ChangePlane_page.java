@@ -115,7 +115,7 @@ public class ChangePlane_page extends Fragment {
         spinnerVM.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                getPlanByName(listvm.get(position).getProv(),position);
+                getPlanByName(listvm.get(position).getProv(), position);
             }
 
             @Override
@@ -137,24 +137,23 @@ public class ChangePlane_page extends Fragment {
         spinnerplan.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
-                ListView lv = (ListView)view.findViewById(R.id.listChange);
+                ListView lv = (ListView) view.findViewById(R.id.listChange);
                 List<ListItemChangePlan> itemsVM = new ArrayList<>();
                 Plan plan = listPlan.get(position);
                 Plan vm = listvm.get(positionvm);
-                if(!itemsVM.isEmpty()){
+                if (!itemsVM.isEmpty()) {
                     itemsVM.removeAll(itemsVM);
-                }
-                else {
+                } else {
                     //itemsVM.add(new ListItemChangePlan("Cloud Provider", plan.getProv(),vm.getProv()));
                     itemsVM.add(new ListItemChangePlan("IP Address", plan.getIp(), vm.getIp()));
                     itemsVM.add(new ListItemChangePlan("CPU", plan.getCpu(), vm.getCpu()));
-                    itemsVM.add(new ListItemChangePlan("Memory", plan.getMemory(),vm.getMemory()));
-                    itemsVM.add(new ListItemChangePlan("Network", plan.getMemory(),vm.getMemory()));
-                    itemsVM.add(new ListItemChangePlan("Storage", plan.getStorage(),vm.getStorage()));
-                    itemsVM.add(new ListItemChangePlan("Mountly Rate", plan.getMounthlyrate(),vm.getMounthlyrate()));
+                    itemsVM.add(new ListItemChangePlan("Memory", plan.getMemory(), vm.getMemory()));
+                    itemsVM.add(new ListItemChangePlan("Network", plan.getMemory(), vm.getMemory()));
+                    itemsVM.add(new ListItemChangePlan("Storage", plan.getStorage(), vm.getStorage()));
+                    itemsVM.add(new ListItemChangePlan("Mountly Rate", plan.getMounthlyrate(), vm.getMounthlyrate()));
                 }
                 System.out.println("item plan" + itemsVM.toString());
-                ChangePlanViewAdapter adapter = new ChangePlanViewAdapter(getContext(),android.R.layout.simple_expandable_list_item_2,itemsVM);
+                ChangePlanViewAdapter adapter = new ChangePlanViewAdapter(getContext(), android.R.layout.simple_expandable_list_item_2, itemsVM);
                 lv.setAdapter(adapter);
             }
 
@@ -163,22 +162,6 @@ public class ChangePlane_page extends Fragment {
 
             }
         });
-    }
-    /*return index list plan*/
-    public int getIndexPlan(int mode){
-        if(mode == 0){ //next
-            if(indexPlan >= listPlan.size()){
-                indexPlan = 0;
-            }
-            else indexPlan++;
-        }
-        else { //pre
-            if(indexPlan <= 0){
-                indexPlan = listPlan.size()-1;
-            }
-            else indexPlan--;
-        }
-        return indexPlan;
     }
 
     public void getPlanByName(String cloud,int position){
@@ -197,7 +180,7 @@ public class ChangePlane_page extends Fragment {
             param.put("cloudProv", 5);
         //get("plan/", param, listPlan); //make list plan
         System.out.println("prov : "+param.toString());
-        getPlan(param,position);
+        getPlan(param, position);
     }
 
     /*send http to get plan that available*/
@@ -288,7 +271,15 @@ public class ChangePlane_page extends Fragment {
             }
         });
     }
-/*    public void get(String url,RequestParams params,final List<Plan> plan) {
+   /* public interface CreateView{
+        void createView(int position);
+    }
+    public class CreateViewVM implements CreateView{
+        void createView(int position){
+
+        }
+    }
+    public void get(String url,RequestParams params,final List<Plan> plan,CreateView<> fn) {
         // Make RESTful webservice call using AsyncHttpClient object
         HTTPConnector.get(url, params, new AsyncHttpResponseHandler() {
             @Override

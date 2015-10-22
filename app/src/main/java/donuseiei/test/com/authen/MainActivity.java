@@ -36,8 +36,8 @@ public class MainActivity extends AppCompatActivity
         Profile_page.OnFragmentInteractionListener,
         donuseiei.test.com.authen.page.View_plan.OnFragmentInteractionListener,
         ChangePlane_page.OnFragmentInteractionListener,
-        AllDash_page.OnFragmentInteractionListener,
-        EachDash_page.OnFragmentInteractionListener{
+        AllDash_page.OnFragmentInteractionListener
+       {
 
     private RadioButton dash;
     private RadioButton plan;
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity
         //default
         tog = dash;
         toggle(dash);
-        replacePage(new Dash_page());
+        replacePage(new EachDash_page());
         //check button menu clicked
         onClick();
     }
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 toggle(dash);
-                replacePage(new Dash_page());
+                replacePage(new EachDash_page());
             }
         });
         plan.setOnClickListener(new View.OnClickListener() {

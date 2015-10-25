@@ -34,8 +34,6 @@ public class MainActivity extends AppCompatActivity
         Bill_page.OnFragmentInteractionListener,
         Mail_page.OnFragmentInteractionListener,
         Profile_page.OnFragmentInteractionListener,
-        donuseiei.test.com.authen.page.View_plan.OnFragmentInteractionListener,
-        ChangePlane_page.OnFragmentInteractionListener,
         AllDash_page.OnFragmentInteractionListener
        {
 

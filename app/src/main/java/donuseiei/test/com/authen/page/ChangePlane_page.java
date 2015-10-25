@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -43,8 +44,8 @@ public class ChangePlane_page extends Fragment {
     // TODO: Rename and change types of parameters
     private String id;
     private String password;
-    private ImageButton btnNext;
-    private ImageButton btnPre;
+    private String ip;
+    private String cloundProv;
     private int indexPlan = 0;
     private ArrayList<Plan> listPlan;
     private ArrayList<Plan> listvm;
@@ -54,7 +55,7 @@ public class ChangePlane_page extends Fragment {
     private List<String> ips;
     private List<String> planName;
     private RequestParams paramsGetPlan;
-    private OnFragmentInteractionListener mListener;
+    private Button btnChange;
 
     /**
      * Use this factory method to create a new instance of
@@ -97,7 +98,18 @@ public class ChangePlane_page extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_change_plane_page, container, false);
-        //get("plan/" + id + "/",paramsGetPlan,listvm);
+        btnChange = (Button)view.findViewById(R.id.btn_change);
+        btnChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RequestParams paramsUpdate = new RequestParams();
+                paramsUpdate.put("password",password);
+                paramsUpdate.put("ip",ip);
+                paramsUpdate.put("plan",indexPlan);
+                paramsUpdate.put("cloudProv",cloundProv);
+                updatePlan(paramsUpdate);
+            }
+        });
         getVM(paramsGetPlan);
         return view;
     }
@@ -137,15 +149,18 @@ public class ChangePlane_page extends Fragment {
         spinnerplan.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
+                indexPlan = position;
                 ListView lv = (ListView) view.findViewById(R.id.listChange);
                 List<ListItemChangePlan> itemsVM = new ArrayList<>();
                 Plan plan = listPlan.get(position);
                 Plan vm = listvm.get(positionvm);
+                ip = vm.getIp();
+                cloundProv = vm.getProv();
                 if (!itemsVM.isEmpty()) {
                     itemsVM.removeAll(itemsVM);
                 } else {
                     //itemsVM.add(new ListItemChangePlan("Cloud Provider", plan.getProv(),vm.getProv()));
-                    itemsVM.add(new ListItemChangePlan("IP Address", plan.getIp(), vm.getIp()));
+                    //itemsVM.add(new ListItemChangePlan("IP Address", plan.getIp(), vm.getIp()));
                     itemsVM.add(new ListItemChangePlan("CPU", plan.getCpu(), vm.getCpu()));
                     itemsVM.add(new ListItemChangePlan("Memory", plan.getMemory(), vm.getMemory()));
                     itemsVM.add(new ListItemChangePlan("Network", plan.getMemory(), vm.getMemory()));
@@ -179,7 +194,7 @@ public class ChangePlane_page extends Fragment {
         else if(cloud.equals("Unknown"))
             param.put("cloudProv", 5);
         //get("plan/", param, listPlan); //make list plan
-        System.out.println("prov : "+param.toString());
+        System.out.println("prov : " + param.toString());
         getPlan(param, position);
     }
 
@@ -203,7 +218,7 @@ public class ChangePlane_page extends Fragment {
                 }
                 try {
                     JSONArray jsonArray = new JSONArray(response);
-                    if (jsonArray.length()!=0) {
+                    if (jsonArray.length() != 0) {
                         for (int index = 0; index < jsonArray.length(); index++) {
                             JSONObject json = new JSONObject(jsonArray.get(index).toString());
                             Plan p = new Plan(json.getString("cloudProv"),
@@ -271,84 +286,24 @@ public class ChangePlane_page extends Fragment {
             }
         });
     }
-   /* public interface CreateView{
-        void createView(int position);
-    }
-    public class CreateViewVM implements CreateView{
-        void createView(int position){
-
-        }
-    }
-    public void get(String url,RequestParams params,final List<Plan> plan,CreateView<> fn) {
-        // Make RESTful webservice call using AsyncHttpClient object
-        HTTPConnector.get(url, params, new AsyncHttpResponseHandler() {
+    public void updatePlan(RequestParams params){
+        HTTPConnector.get("/update/plan/" + id + "/", params, new AsyncHttpResponseHandler() {
             @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] bytes, Throwable throwable) {
-                Toast.makeText(getActivity(), "Error code : " + statusCode, Toast.LENGTH_LONG).show();
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                getVM(paramsGetPlan);
             }
 
             @Override
-            public void onSuccess(int j, Header[] headers, byte[] bytes) {
-                String response = "";
-                for (int index = 0; index < bytes.length; index++) {
-                    response += (char) bytes[index];
-                }
-                if(!plan.isEmpty()){
-                    plan.removeAll(plan);
-                }
-                try {
-                    JSONArray jsonarr = new JSONArray(response);
-                    if (jsonarr.length() != 0) {
-                        for (int index = 0; index < jsonarr.length(); index++) {
-                            JSONObject json = new JSONObject(jsonarr.get(index).toString());
-                            Plan c = new Plan(
-                                    json.getString("cloudProv"),
-                                    json.getString("ip"),
-                                    json.getString("monthlyRate"),
-                                    json.getString("cpu"),
-                                    json.getString("mem"),
-                                    json.getString("network"),
-                                    json.getString("storage"));
-                            plan.add(c);
-                        }
-                        createView();
-                    } else {
-                        Toast.makeText(getActivity(), "No Any Fucking Plan , Go to ur school", Toast.LENGTH_LONG);
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Toast.makeText(getActivity(), "No Any Fucking Plan , Go to ur school", Toast.LENGTH_LONG);
             }
         });
-    }*/
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
+
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
     }
 
 }

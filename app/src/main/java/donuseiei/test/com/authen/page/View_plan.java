@@ -1,12 +1,7 @@
 package donuseiei.test.com.authen.page;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
@@ -28,8 +20,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
-
 import donuseiei.test.com.authen.Adapter.PlanViewAdapter;
 import donuseiei.test.com.authen.HTTPConnector;
 import donuseiei.test.com.authen.ListItemPlan;
@@ -50,7 +40,6 @@ public class View_plan extends Fragment {
     private RequestParams params;
     private Spinner dropdown;
     private List<String> ips;
-    private OnFragmentInteractionListener mListener;
 
     // TODO: Rename and change types and number of parameters
     public static View_plan newInstance(String param1, String param2) {
@@ -150,7 +139,7 @@ public class View_plan extends Fragment {
                 }
                 else {
                     itemsVM.add(new ListItemPlan("Cloud Provider", p.getProv()));
-                    itemsVM.add(new ListItemPlan("IP Address", p.getIp()));
+                    //itemsVM.add(new ListItemPlan("IP Address", p.getIp()));
                     itemsVM.add(new ListItemPlan("CPU", p.getCpu()));
                     itemsVM.add(new ListItemPlan("Memory", p.getMemory()));
                     itemsVM.add(new ListItemPlan("Network", p.getMemory()));
@@ -168,22 +157,8 @@ public class View_plan extends Fragment {
         });
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
-    }
-
 }

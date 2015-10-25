@@ -22,6 +22,9 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import donuseiei.test.com.authen.HTTPConnector;
 import donuseiei.test.com.authen.MainActivity;
@@ -116,13 +119,18 @@ public class Login_page extends Fragment {
                     response += (char) responseBody[index];
                 }
                 Log.i("res", response);
-                if (!response.isEmpty()) {
-                    Intent intent = new Intent(getActivity(), MainActivity.class);
-                    intent.putExtra("id", response);
-                    intent.putExtra("password", password);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(getActivity(), "Email or Password may wrong", Toast.LENGTH_LONG).show();
+                try {
+                    JSONObject json = new JSONObject(response);
+                    if (!response.isEmpty()) {
+                        Intent intent = new Intent(getActivity(), MainActivity.class);
+                        intent.putExtra("id", json.getString("userId"));
+                        intent.putExtra("password", json.getString("password"));
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(getActivity(), "Email or Password may wrong", Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
 

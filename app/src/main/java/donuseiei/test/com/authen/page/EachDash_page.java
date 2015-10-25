@@ -6,116 +6,37 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
+import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
+import donuseiei.test.com.authen.Adapter.PlanViewAdapter;
+import donuseiei.test.com.authen.HTTPConnector;
+import donuseiei.test.com.authen.ListItemPlan;
+import donuseiei.test.com.authen.Plan;
 import donuseiei.test.com.authen.R;
 
 
 public class EachDash_page extends Fragment {
-/*    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
-
-    *//**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment EachDash_page.
-     *//*
-    // TODO: Rename and change types and number of parameters
-    public static EachDash_page newInstance(String param1, String param2) {
-        EachDash_page fragment = new EachDash_page();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public EachDash_page() {
-        // Required empty public constructor
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_each_dash_page, container, false);
-        GraphView graph = (GraphView) v.findViewById(R.id.graph);
-        LineGraphSeries<DataPoint> series = new LineGraphSeries<>(new DataPoint[] {
-                new DataPoint(0, 1),
-                new DataPoint(1, 5),
-                new DataPoint(2, 3),
-                new DataPoint(3, 2),
-                new DataPoint(4, 6)
-        });
-        graph.addSeries(series);
-
-        return v;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    *//**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     *//*
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
-    }*/
     private final Handler mHandler = new Handler();
     private Runnable mTimer;
     private LineGraphSeries<DataPoint> mSeries_cpu;
@@ -127,18 +48,46 @@ public class EachDash_page extends Fragment {
     private TextView v_mem;
     private TextView v_str;
     private TextView v_net;
+    private String id;
+    private String password;
+    private Spinner dropdown;
+    private RequestParams params;
+    private List<String> list_name;
+    private View rootView;
+    private JSONObject json;
+    private JSONArray json_arr;
+    private JSONObject update_json;
+    private JSONArray update_json_arr;
+    private double cpu = 0;
+    private double mem = 0;
+    private double str = 0;
+    private double net = 0;
+    private String name;
+    private String ip;
+    private GraphView graph_cpu;
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            id = getArguments().getString("id");
+            password = getArguments().getString("password");
+            params = new RequestParams();
+            params.put("password",password);
+        }
+        list_name = new ArrayList<>();
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_each_dash_page, container, false);
+        rootView = inflater.inflate(R.layout.fragment_each_dash_page, container, false);
 
         v_cpu = (TextView)rootView.findViewById(R.id.text_cpu);
         v_mem = (TextView)rootView.findViewById(R.id.text_mem);
         v_str = (TextView)rootView.findViewById(R.id.text_storage);
         v_net = (TextView)rootView.findViewById(R.id.text_net);
 
-        GraphView graph_cpu = (GraphView) rootView.findViewById(R.id.graph_cpu);
+        graph_cpu = (GraphView) rootView.findViewById(R.id.graph_cpu);
         mSeries_cpu = new LineGraphSeries<>();
         graph_cpu.addSeries(mSeries_cpu);
         graph_cpu.getViewport().setXAxisBoundsManual(true);
@@ -178,7 +127,53 @@ public class EachDash_page extends Fragment {
         graph_net.getViewport().setMaxY(100);
         graph_net.getViewport().setYAxisBoundsManual(true);
 
+        getData(params);
+
         return rootView;
+    }
+    public void CreateView() throws JSONException {
+
+        dropdown = (Spinner) rootView.findViewById(R.id.spinner_dash);
+        if(!list_name.isEmpty()){
+            list_name.removeAll(list_name);
+        }
+        for (int i=0 ; i < json_arr.length();i++) {
+            JSONArray j_arr = json_arr.getJSONObject(i).getJSONArray("vms");
+            for(int j =0 ;j<j_arr.length();j++){
+                list_name.add(json_arr.getJSONObject(i).getString("cloudName") +" : "+ j_arr.getJSONObject(j).getString("vmIP"));
+            }
+        }
+        ArrayAdapter<String> adapter_spinner = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, list_name);
+        dropdown.setAdapter(adapter_spinner);
+        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                name = list_name.get(position).split(" : ")[0];
+                ip = list_name.get(position).split(" : ")[1];
+              /*  ListView lv = (ListView)rootView.findViewById(R.id.listPlanView);
+                List<ListItemPlan> itemsVM = new ArrayList<>();;
+                Plan p = listVM.get(position);
+                if(!itemsVM.isEmpty()){
+                    itemsVM.removeAll(itemsVM);
+                }
+                else {
+                    itemsVM.add(new ListItemPlan("Cloud Provider", p.getProv()));
+                    //itemsVM.add(new ListItemPlan("IP Address", p.getIp()));
+                    itemsVM.add(new ListItemPlan("CPU", p.getCpu()));
+                    itemsVM.add(new ListItemPlan("Memory", p.getMemory()));
+                    itemsVM.add(new ListItemPlan("Network", p.getMemory()));
+                    itemsVM.add(new ListItemPlan("Storage", p.getStorage()));
+                    itemsVM.add(new ListItemPlan("Mountly Rate", p.getMounthlyrate()));
+                }
+                PlanViewAdapter adapter = new PlanViewAdapter(getContext(),android.R.layout.simple_expandable_list_item_2,itemsVM);
+                lv.setAdapter(adapter);*/
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @Override
@@ -187,11 +182,8 @@ public class EachDash_page extends Fragment {
         mTimer = new Runnable() {
             @Override
             public void run() {
+                updateData(params,name,ip);
                 graph2LastXValue += 1d;
-                double cpu = getRandom();
-                double mem = getRandom();
-                double str = getRandom();
-                double net = getRandom();
                 mSeries_cpu.appendData(new DataPoint(graph2LastXValue, cpu), true, 100);
                 mSeries_mem.appendData(new DataPoint(graph2LastXValue, mem), true, 100);
                 mSeries_storage.appendData(new DataPoint(graph2LastXValue, str), true, 100);
@@ -213,26 +205,66 @@ public class EachDash_page extends Fragment {
         super.onPause();
     }
 
-    private DataPoint[] generateData() {
-        int count = 30;
-        DataPoint[] values = new DataPoint[count];
-        for (int i=0; i<count; i++) {
-            double x = i;
-            double f = mRand.nextDouble()*0.15+0.3;
-            double y = Math.sin(i*f+2) + mRand.nextDouble()*0.3;
-            DataPoint v = new DataPoint(x, y);
-            values[i] = v;
-        }
-        return values;
-    }
+    public void getData(RequestParams params){
+        HTTPConnector.get("/dashboard/" + id + "/", params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                String response = "";
+                for (int index = 0; index < responseBody.length; index++) {
+                    response += (char) responseBody[index];
+                }
+                try {
+                    json = new JSONObject(response);
+                    json_arr = json.getJSONArray("clouds");
+                    System.out.println("json arr : " + json_arr.length());
+                    CreateView();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
 
-    double mLastRandom = 2;
-    Random mRand = new Random();
-    private double getRandom() {
-        mLastRandom = mRand.nextInt()/100000000;
-        if(mLastRandom<0)
-            mLastRandom*=-1;
-        return mLastRandom;
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Toast.makeText(getActivity(), "Error Code " + statusCode, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+    public void updateData(RequestParams params,final String name,final String ip){
+        HTTPConnector.get("/dashboard/" + id + "/", params, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                String response = "";
+                for (int index = 0; index < responseBody.length; index++) {
+                    response += (char) responseBody[index];
+                }
+                try {
+                    update_json = new JSONObject(response);
+                    update_json_arr = update_json.getJSONArray("clouds");
+                    System.out.println("json arr : " + update_json_arr.toString());
+                    for (int i = 0; i < update_json_arr.length(); i++) {
+                        if(update_json_arr.getJSONObject(i).getString("cloudName").equals(name)) {
+                            JSONArray j_arr = update_json_arr.getJSONObject(i).getJSONArray("vms");
+                            for (int j = 0; j < j_arr.length(); j++) {
+                                if(j_arr.getJSONObject(j).getString("vmIP").equals(ip)) {
+                                    cpu = Double.parseDouble(j_arr.getJSONObject(j).getString("Cpu"));
+                                    mem = Double.parseDouble(j_arr.getJSONObject(j).getString("Mem"));
+                                    str = Double.parseDouble(j_arr.getJSONObject(j).getString("Storage"));
+                                    net = Double.parseDouble(j_arr.getJSONObject(j).getString("Network"));
+                                    break;
+                                }
+                            }
+                            break;
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Toast.makeText(getActivity(), "Error Code " + statusCode, Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }
 

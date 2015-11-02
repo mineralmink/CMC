@@ -7,6 +7,7 @@
 
     <EditText
         android:textColor="#000000"
+        android:background="@color/white_background"
         android:hint="Email Address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,6 +20,7 @@
 
     <EditText
         android:textColor="#000000"
+        android:background="@color/white_background"
         android:hint="Password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,25 +34,35 @@
     <Button
         android:textColor="@color/black"
         android:background="@color/white_background"
-        android:layout_width="70dp"
-        android:layout_height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Login"
         android:id="@+id/submit_login"
+        android:layout_marginTop="34dp"
         android:layout_below="@+id/password_login"
-        android:layout_alignLeft="@+id/imageView"
-        android:layout_alignStart="@+id/imageView"
-        android:layout_marginTop="40dp" />
+        android:layout_alignLeft="@+id/password_login"
+        android:layout_alignStart="@+id/password_login"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="17dp" />
 
     <Button
         android:textColor="@color/black"
         android:background="@color/white_background"
-        android:layout_width="70dp"
-        android:layout_height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Register"
         android:id="@+id/btn_register"
+        android:layout_marginLeft="57dp"
+        android:layout_marginStart="57dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginEnd="24dp"
         android:layout_alignTop="@+id/submit_login"
-        android:layout_alignRight="@+id/imageView"
-        android:layout_alignEnd="@+id/imageView" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/password_login"
+        android:layout_alignEnd="@+id/password_login"
+        android:layout_marginBottom="145dp"
+        android:layout_toRightOf="@+id/submit_login"
+        android:layout_toEndOf="@+id/submit_login" />
 
     <ImageView
         android:layout_width="150dp"
@@ -61,14 +73,21 @@
         android:src="@mipmap/cloud_icon"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="17dp" />
+        android:layout_marginTop="17dp"
+        android:layout_marginBottom="10dp" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageView2"
         android:src="@mipmap/cmc_icon"
-        android:layout_below="@+id/imageView"
-        android:layout_centerHorizontal="true" />
+        android:layout_marginBottom="29dp"
+        android:layout_alignBottom="@+id/username_login"
+        android:layout_alignRight="@+id/imageView"
+        android:layout_alignEnd="@+id/imageView"
+        android:layout_alignTop="@+id/imageView"
+        android:layout_alignLeft="@+id/imageView"
+        android:layout_alignStart="@+id/imageView"
+        android:layout_marginTop="155dp" />
 
 </RelativeLayout>

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/white_background"
+    android:background="@color/sapphireblue_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/white_background"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Register"
         android:id="@+id/register_title"
@@ -18,6 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
+        android:textColorHint="@color/white_background"
         android:hint="Full Name"
         android:ems="10"
         android:id="@+id/regis_fullname_edit"
@@ -26,9 +28,10 @@
         android:layout_marginTop="27dp" />
 
     <EditText
-        android:hint="Email Adress"
+        android:hint="Email Address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColorHint="@color/white_background"
         android:inputType="textEmailAddress"
         android:ems="10"
         android:id="@+id/regis_email_edit"
@@ -39,6 +42,7 @@
         android:hint="Password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColorHint="@color/white_background"
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/regis_pass_edit"
@@ -52,8 +56,8 @@
         android:layout_height="wrap_content"
         android:text="Submit"
         android:id="@+id/regis_submit_button"
-        android:layout_marginBottom="14dp"
-        android:layout_above="@+id/regis_cancel_button"
+        android:layout_marginTop="29dp"
+        android:layout_below="@+id/regis_pass_edit"
         android:layout_alignLeft="@+id/regis_pass_edit"
         android:layout_alignStart="@+id/regis_pass_edit"
         android:layout_alignRight="@+id/regis_pass_edit"
@@ -66,8 +70,8 @@
         android:layout_height="wrap_content"
         android:text="Cancel"
         android:id="@+id/regis_cancel_button"
-        android:layout_marginBottom="73dp"
-        android:layout_alignParentBottom="true"
+        android:layout_marginTop="19dp"
+        android:layout_below="@+id/regis_submit_button"
         android:layout_alignLeft="@+id/regis_submit_button"
         android:layout_alignStart="@+id/regis_submit_button"
         android:layout_alignRight="@+id/regis_submit_button"

@@ -1,7 +1,9 @@
 <resources>
 
     <color name="black_overlay">#66000000</color>
+    <color name="black">#66000000</color>
     <color name="white_background">#e5e5e5</color>
+    <color name="sapphireblue_background">#2554C7</color>
     <color name="blue_button">#2196F3</color>
     <color name="text_white">#FFFFFF</color>
     <color name="change_plan_top">#80daeb</color>

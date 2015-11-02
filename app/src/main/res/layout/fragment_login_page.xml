@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/white_background"
+    android:background="@color/sapphireblue_background"
     android:id="@+id/login_frag"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -13,9 +13,9 @@
         android:inputType="textEmailAddress"
         android:ems="10"
         android:id="@+id/username_login"
-        android:layout_below="@+id/login_title"
+        android:layout_marginTop="37dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="59dp" />
+        android:layout_centerVertical="true" />
 
     <EditText
         android:textColor="#000000"
@@ -25,44 +25,50 @@
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/password_login"
+        android:layout_marginTop="17dp"
         android:layout_below="@+id/username_login"
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:textColor="@color/text_white"
-        android:background="@color/blue_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:background="@color/white_background"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
         android:text="Login"
         android:id="@+id/submit_login"
-        android:layout_marginTop="103dp"
         android:layout_below="@+id/password_login"
-        android:layout_alignLeft="@+id/btn_register"
-        android:layout_alignStart="@+id/btn_register"
-        android:layout_alignRight="@+id/password_login"
-        android:layout_alignEnd="@+id/password_login" />
+        android:layout_alignLeft="@+id/imageView"
+        android:layout_alignStart="@+id/imageView"
+        android:layout_marginTop="40dp" />
 
     <Button
-        android:textColor="@color/text_white"
-        android:background="#800080"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:background="@color/white_background"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
         android:text="Register"
         android:id="@+id/btn_register"
-        android:layout_marginTop="14dp"
-        android:layout_below="@+id/submit_login"
-        android:layout_alignLeft="@+id/password_login"
-        android:layout_alignStart="@+id/password_login"
-        android:layout_alignRight="@+id/password_login"
-        android:layout_alignEnd="@+id/password_login" />
+        android:layout_alignTop="@+id/submit_login"
+        android:layout_alignRight="@+id/imageView"
+        android:layout_alignEnd="@+id/imageView" />
 
-    <TextView
+    <ImageView
+        android:layout_width="150dp"
+        android:background="@color/sapphireblue_background"
+        android:drawableTop="@mipmap/ic_email_black_36dp_w"
+        android:layout_height="150dp"
+        android:id="@+id/imageView"
+        android:src="@mipmap/cloud_icon"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="17dp" />
+
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Login"
-        android:id="@+id/login_title"
-        android:layout_marginTop="96dp"
-        android:layout_alignParentTop="true"
+        android:id="@+id/imageView2"
+        android:src="@mipmap/cmc_icon"
+        android:layout_below="@+id/imageView"
         android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
